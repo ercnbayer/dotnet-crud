@@ -53,7 +53,7 @@ public class RefreshTokenRepository
 
     }
 
-    public async Task<Result<List<RefreshToken>>> GetByUserIdAsync(Guid userId)
+   /* public async Task<Result<List<RefreshToken>>> GetByUserIdAsync(Guid userId)
     {
 
         try
@@ -72,7 +72,7 @@ public class RefreshTokenRepository
         return await _context.RefreshTokens
             .Where(rt => rt.UserId == userId)
             .ToListAsync();
-    }
+    }*/
 
     public async Task<bool> DeleteAsync(Guid id)
     {

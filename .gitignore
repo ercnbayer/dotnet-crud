@@ -1,0 +1,43 @@
+# JetBrains Rider project settings
+.idea/
+*.sln.iml
+*.DotSettings.user
+
+# Rider specific run/debug configs
+.idea/.idea.*
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries/
+.idea/**/shelf/
+
+# Build outputs
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet packages and cache
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Entity Framework Core Migrations snapshot files
+**/Migrations/*_*.cs
+
+# Logs and temp files
+*.log
+
+# ASP.NET secrets (local config)
+**/secrets.json
+
+# IDE-specific (if VS Code is used)
+.vscode/
