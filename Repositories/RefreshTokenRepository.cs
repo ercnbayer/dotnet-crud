@@ -53,26 +53,26 @@ public class RefreshTokenRepository
 
     }
 
-   /* public async Task<Result<List<RefreshToken>>> GetByUserIdAsync(Guid userId)
+   public async Task<Result<List<RefreshToken>>> GetByUserIdAsync(Guid userId)
     {
 
         try
         {
             var tokenList = await _context.RefreshTokens.Where(x => x.UserId == userId).ToListAsync();
 
-            if (tokenList == null)
+            if (tokenList == null || tokenList.Count == 0)
             {
                 return Result<List<RefreshToken>>.Fail("There are no tokens");
             }
+            return Result<List<RefreshToken>>.Success(tokenList);
         }
         catch (Exception e)
         {
-           
+           return Result<List<RefreshToken>>.Fail("RefreshTokenRepository GetByUserId Error:"+e.Message);
         }
-        return await _context.RefreshTokens
-            .Where(rt => rt.UserId == userId)
-            .ToListAsync();
-    }*/
+        
+        
+    }
 
     public async Task<bool> DeleteAsync(Guid id)
     {

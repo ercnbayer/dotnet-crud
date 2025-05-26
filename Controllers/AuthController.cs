@@ -49,9 +49,13 @@ public class AuthController:ControllerBase
        {
            User = authenticaedUser,
            AccessToken = tokenString,
+           /* To Do: Add Here RefreshToken*/
        };
        
        return Ok(response);
        
     }
+    
+    // TO DO: Delete UserCreate from UserController Add it here as Register
+    
 }
