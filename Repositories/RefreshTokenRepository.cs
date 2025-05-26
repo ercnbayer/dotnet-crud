@@ -25,10 +25,10 @@ public class RefreshTokenRepository
         }
         catch (Exception e)
         {
-            return Result<RefreshToken>.Fail("RefreshTokenRepository Create Error:"+e.Message);
+            return Result<RefreshToken>.Fail("RefreshTokenRepository Create Error:" + e.Message);
         }
-       
-      
+
+
     }
 
     public async Task<Result<RefreshToken>> GetByIdAsync(Guid id)
@@ -36,24 +36,24 @@ public class RefreshTokenRepository
 
         try
         {
-            var refreshToken= await _context.RefreshTokens.FindAsync(id);
+            var refreshToken = await _context.RefreshTokens.FindAsync(id);
 
             if (refreshToken == null)
             {
-                return Result<RefreshToken>.Fail("RefreshTokenRepository GetById Error:"+id);
+                return Result<RefreshToken>.Fail("RefreshTokenRepository GetById Error:" + id);
             }
-            
+
             return Result<RefreshToken>.Success(refreshToken);
         }
         catch (Exception e)
         {
-            
-            return Result<RefreshToken>.Fail("RefreshTokenRepository GetById Error:"+e.Message);
+
+            return Result<RefreshToken>.Fail("RefreshTokenRepository GetById Error:" + e.Message);
         }
 
     }
 
-   public async Task<Result<List<RefreshToken>>> GetByUserIdAsync(Guid userId)
+    public async Task<Result<List<RefreshToken>>> GetByUserIdAsync(Guid userId)
     {
 
         try
@@ -68,10 +68,10 @@ public class RefreshTokenRepository
         }
         catch (Exception e)
         {
-           return Result<List<RefreshToken>>.Fail("RefreshTokenRepository GetByUserId Error:"+e.Message);
+            return Result<List<RefreshToken>>.Fail("RefreshTokenRepository GetByUserId Error:" + e.Message);
         }
-        
-        
+
+
     }
 
     public async Task<bool> DeleteAsync(Guid id)

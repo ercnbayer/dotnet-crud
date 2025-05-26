@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace dotnetcrud.Controllers
 {
     [ApiController]
-    [Route("user")] 
+    [Route("user")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

@@ -9,5 +9,5 @@ public class AuthenticatedUser
 
     public required string Email { get; set; }
 
-    
+
 }
