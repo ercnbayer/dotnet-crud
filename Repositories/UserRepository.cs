@@ -25,12 +25,12 @@ public class UserRepository : IUserRepository
         }
         catch (DbUpdateException ex)
         {
-            
+
             return Result<User>.Fail(ex.Message);// to do get detailed err
         }
         catch (Exception ex)
         {
-        
+
             return Result<User>.Fail(ex.Message);
         }
     }

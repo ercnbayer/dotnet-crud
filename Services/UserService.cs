@@ -67,7 +67,7 @@ public class UserService : IUserService
     public async Task<Result<User>> GetUserByEmailAsync(string email)
     {
         var dbUserResult = await _userRepository.GetByEmailAsync(email);
-       
+
         if (!dbUserResult.IsSuccess)
         {
             return Result<User>.Fail(dbUserResult.Error);

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace dotnetcrud.Model
 {
-    
+
     [Index(nameof(Email), IsUnique = true)]
     [Index(nameof(Username), IsUnique = true)]
     public class User
@@ -14,7 +14,7 @@ namespace dotnetcrud.Model
 
         public required string Username { get; set; }
 
-        public required  string Email { get; set; }
+        public required string Email { get; set; }
 
         public required string PasswordHash { get; set; }
 

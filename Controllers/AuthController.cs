@@ -33,8 +33,8 @@ public class AuthController : ControllerBase
         {
             return Unauthorized();
         }
-        
-        
+
+
         var tokenString = _encryptionService.GenerateToken(userResult.Data.Id);
 
 
@@ -49,10 +49,10 @@ public class AuthController : ControllerBase
         var response = new LoginResponse
         {
             User = authenticatedUser,
-            AccessToken =tokenString,
+            AccessToken = tokenString,
             /* To Do: Add Here RefreshToken*/
         };
-        return  Ok(response);
+        return Ok(response);
 
     }
 
