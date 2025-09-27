@@ -67,8 +67,8 @@ public class UserService : IUserService
     public async Task<Result<User>> GetUserByEmailAsync(string email)
     {
         var dbUserResult = await _userRepository.GetByEmailAsync(email);
-
-        if (dbUserResult.IsSuccess == false)
+        Console.WriteLine(dbUserResult.Data.Salt);
+        if (!dbUserResult.IsSuccess)
         {
             return Result<User>.Fail(dbUserResult.Error);
 
@@ -81,7 +81,7 @@ public class UserService : IUserService
 
     public async Task<Result<AuthenticatedUser>> CreateUserAsync(CreateUserDto dto)
     {
-        var (salt, passwordHash) = _encryptionService.HashPassword(dto.Password);
+        var (passwordHash, salt) = _encryptionService.HashPassword(dto.Password);
         var user = new User
         {
             Username = dto.Username,
@@ -93,7 +93,7 @@ public class UserService : IUserService
 
         var dbUserResult = await _userRepository.CreateAsync(user);
 
-        if (dbUserResult.IsSuccess == false)
+        if (!dbUserResult.IsSuccess)
         {
             if (dbUserResult != null)
                 return Result<AuthenticatedUser>.Fail(dbUserResult.Error);

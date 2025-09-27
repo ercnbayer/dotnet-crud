@@ -25,10 +25,12 @@ public class UserRepository : IUserRepository
         }
         catch (DbUpdateException ex)
         {
-            return Result<User>.Fail(ex.Message);
+            
+            return Result<User>.Fail(ex.Message);// to do get detailed err
         }
         catch (Exception ex)
         {
+        
             return Result<User>.Fail(ex.Message);
         }
     }
@@ -101,6 +103,7 @@ public class UserRepository : IUserRepository
             {
                 return Result<User>.Fail("User GetByEmail Null User Object");
             }
+
             return Result<User>.Success(user);
         }
         catch (Exception ex)

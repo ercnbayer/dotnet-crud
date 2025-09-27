@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using dotnetcrud.Errors;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using static dotnetcrud.Security.Security;
@@ -76,7 +77,7 @@ namespace dotnetcrud.Encryption
 
 
 
-        public IResult ValidateToken(string token) // Returns userID
+        public Result<string> ValidateToken(string token) // Returns userID
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_settings.Secret);
@@ -99,17 +100,17 @@ namespace dotnetcrud.Encryption
 
                 var userId = principal.FindFirst("userID")?.Value;
                 if (string.IsNullOrEmpty(userId))
-                    return Results.BadRequest(new { error = "Token does not contain userID." });
+                    return Result<string>.Fail("Token does not contain userID.");
 
-                return Results.Ok(new { userID = userId });
+                return Result<string>.Success(userId);
             }
             catch (SecurityTokenExpiredException)
             {
-                return Results.Unauthorized();
+                return Result<string>.Fail("Token expired.");
             }
             catch (Exception ex)
             {
-                return Results.BadRequest(new { error = ex.Message });
+                return Result<string>.Fail(ex.Message);
             }
         }
 

@@ -2,7 +2,7 @@ namespace dotnetcrud.Dto;
 
 public class LoginResponse
 {
-    public AuthenticatedUser User;
-    public string AccessToken;
+    public required AuthenticatedUser User{get;set;} 
+    public  required string AccessToken {get;set;}
     //public Guid RefreshToken;
 }
