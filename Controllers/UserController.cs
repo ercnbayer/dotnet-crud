@@ -2,6 +2,8 @@ using dotnetcrud.Dto;
 using dotnetcrud.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using dotnetcrud.Middleware;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotnetcrud.Controllers
 {
@@ -21,9 +23,6 @@ namespace dotnetcrud.Controllers
         {
             var result = await _userService.CreateUserAsync(userDto);
 
-            if (result is null)
-                return StatusCode(500, new { error = "Null response" });
-
             if (!result.IsSuccess)
                 return BadRequest(new { error = result.Error ?? "CreateUser" });
 
@@ -31,6 +30,7 @@ namespace dotnetcrud.Controllers
         }
 
         [HttpGet("{id}")] // GET /user/{id}
+        [ServiceFilter(typeof(Authenticate))]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var result = await _userService.GetUserByIdAsync(id);

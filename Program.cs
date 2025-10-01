@@ -1,9 +1,12 @@
 using dotnetcrud.Data;
 using dotnetcrud.Encryption;
+using dotnetcrud.Middleware;
 using dotnetcrud.Repositories;
 using dotnetcrud.Security;
 using dotnetcrud.Services;
+using dotnetcrud.Swagger;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OperationFilter<AuthHeader>();
+    c.AddSecurityDefinition("CustomAuth", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Description = "Enter your token here."
+    });
+
+});
 builder.Services.Configure<Security.SecuritySettings>(
     builder.Configuration.GetSection("Security:SecuritySettings"));
 
@@ -29,6 +43,7 @@ builder.Services.AddSingleton<EncryptionService>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<Authenticate>();
 
 
 var app = builder.Build();
