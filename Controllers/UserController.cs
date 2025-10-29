@@ -1,9 +1,10 @@
 using dotnetcrud.Dto;
 using dotnetcrud.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 using dotnetcrud.Middleware;
-using Microsoft.AspNetCore.Authorization;
+using dotnetcrud.S3;
+
 
 namespace dotnetcrud.Controllers
 {
@@ -12,10 +13,12 @@ namespace dotnetcrud.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        //private readonly IS3Service _Is3Service;
 
         public UserController(IUserService userService)
         {
             _userService = userService;
+            //_Is3Service = is3Service;
         }
 
         [HttpPost] // POST /user
@@ -61,6 +64,33 @@ namespace dotnetcrud.Controllers
                 return NotFound(new { error = result.Error ?? "User can't be updated" });
 
             return Ok(result.Data);
+        }
+
+        //[ServiceFilter(typeof(Authenticate))]
+        //[HttpPost("uploadFile")]
+        /*public async Task<IActionResult> UploadFile([FromBody] S3Upload fileDto)
+        {
+            var userId = HttpContext.Items["UserId"];
+            if (userId == null)
+            {
+                return Problem("null user ", null, 401);
+            }
+
+
+            if (!Guid.TryParse(userId.ToString(), out var id))
+            {
+                return Problem("Invalid User ID format.", null, 400);
+            }
+
+            var urlResult = _Is3Service.CreatePresignedUploadUrl(fileDto.FileName, fileDto.ContentType, id);
+
+            if (!urlResult.IsSuccess)
+            {
+                return Problem(urlResult.Error, null, 400);
+            }
+
+            return Ok(urlResult.Data);*/
+
         }
     }
 }
