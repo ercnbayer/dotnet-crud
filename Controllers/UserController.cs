@@ -89,8 +89,8 @@ namespace dotnetcrud.Controllers
                 return Problem(urlResult.Error, null, 400);
             }
 
-            return Ok(urlResult.Data);*/
+            return Ok(urlResult.Data);
 
-        }
+        }*/
     }
 }
