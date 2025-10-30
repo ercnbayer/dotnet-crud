@@ -9,7 +9,7 @@ namespace dotnetcrud.Swagger;
 
 public class AuthHeader : IOperationFilter
 {
-    
+
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
@@ -35,9 +35,9 @@ public class AuthHeader : IOperationFilter
             Schema = new OpenApiSchema
             {
                 Type = "string",
-                Default=new OpenApiString("")
+                Default = new OpenApiString("TOKEN")
             }
         });
-        
+
     }
 }

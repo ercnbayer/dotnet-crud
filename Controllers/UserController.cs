@@ -13,12 +13,12 @@ namespace dotnetcrud.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        //private readonly IS3Service _Is3Service;
+        private readonly IS3Service _Is3Service;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,IS3Service _is3Service)
         {
             _userService = userService;
-            //_Is3Service = is3Service;
+            _Is3Service = _is3Service;
         }
 
         [HttpPost] // POST /user
@@ -66,9 +66,9 @@ namespace dotnetcrud.Controllers
             return Ok(result.Data);
         }
 
-        //[ServiceFilter(typeof(Authenticate))]
-        //[HttpPost("uploadFile")]
-        /*public async Task<IActionResult> UploadFile([FromBody] S3Upload fileDto)
+        [ServiceFilter(typeof(Authenticate))]
+        [HttpPost("uploadFile")]
+        public async Task<IActionResult> UploadFile([FromBody] S3Upload fileDto)
         {
             var userId = HttpContext.Items["UserId"];
             if (userId == null)
@@ -91,6 +91,6 @@ namespace dotnetcrud.Controllers
 
             return Ok(urlResult.Data);
 
-        }*/
+        }
     }
 }

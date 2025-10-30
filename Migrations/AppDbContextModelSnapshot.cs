@@ -22,6 +22,34 @@ namespace dotnetcrud.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("dotnetcrud.Model.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BucketName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("dotnetcrud.Model.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -77,6 +105,17 @@ namespace dotnetcrud.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("dotnetcrud.Model.File", b =>
+                {
+                    b.HasOne("dotnetcrud.Model.User", "User")
+                        .WithMany("Files")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("dotnetcrud.Model.RefreshToken", b =>
                 {
                     b.HasOne("dotnetcrud.Model.User", "User")
@@ -90,6 +129,8 @@ namespace dotnetcrud.Migrations
 
             modelBuilder.Entity("dotnetcrud.Model.User", b =>
                 {
+                    b.Navigation("Files");
+
                     b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
