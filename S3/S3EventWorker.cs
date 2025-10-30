@@ -18,7 +18,7 @@ public class S3EventWorker : BackgroundService
         _scopeFactory = scopeFactory;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken) // TO DO FIX IT AND DO PROPER LOGGING
     {
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -96,7 +96,7 @@ public class S3EventWorker : BackgroundService
                     };
 
                     var result = await fileRepository.CreateAsync(file);
-
+                    Console.WriteLine(result);
                     if (!result.IsSuccess)
                         Console.WriteLine($"Failed to create file record for {fileName}. Error: {result.Error}");
                     else

@@ -16,7 +16,8 @@ public class S3Config
         var config = new AmazonS3Config
         {
             ServiceURL = ServiceUrl,
-            ForcePathStyle = true // for localstack
+            ForcePathStyle = true ,// for localstack
+            UseHttp=true
         };
 
         return new AmazonS3Client(AccessKey, SecretKey, config);
