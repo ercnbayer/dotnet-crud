@@ -7,10 +7,16 @@ namespace dotnetcrud.Middleware;
 public class Authenticate : IAuthorizationFilter
 {
     private readonly IEncryptionService _encryptionService;
+
+    public Authenticate(IEncryptionService encryptionService)
+    {
+        _encryptionService = encryptionService;
+    }
+
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         var authHeader = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
-
+        
         if (string.IsNullOrEmpty(authHeader))
         {
             context.Result = new JsonResult(new
@@ -22,7 +28,7 @@ public class Authenticate : IAuthorizationFilter
             };
             return;
         }
-
+        
         var result = _encryptionService.ValidateToken(authHeader);
 
         if (!result.IsSuccess)
