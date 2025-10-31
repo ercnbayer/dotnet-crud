@@ -102,7 +102,7 @@ namespace dotnetcrud.Encryption
                 if (string.IsNullOrEmpty(userId))
                     return Result<string>.Fail("Token does not contain userID.");
 
-                Console.WriteLine("USERID:",userId);
+                Console.WriteLine("USERID:", userId);
                 return Result<string>.Success(userId);
             }
             catch (SecurityTokenExpiredException)

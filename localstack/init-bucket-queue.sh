@@ -54,5 +54,12 @@ awslocal s3api put-bucket-notification-configuration \
     ]
   }"
 
+# Adding Queue Policy
+awslocal sqs set-queue-attributes \
+  --queue-url http://localhost:4566/000000000000/my-queue \
+  --attributes '{
+    "Policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"arn:aws:sqs:us-east-1:000000000000:my-queue\",\"Condition\":{\"ArnEquals\":{\"aws:SourceArn\":\"arn:aws:s3:::my-bucket\"}}}]}"
+  }'
+
 echo "S3 bucket 'my-bucket' successfully linked to SQS queue 'my-queue'."
 echo "LocalStack initialization complete."

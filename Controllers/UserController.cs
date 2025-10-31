@@ -15,7 +15,7 @@ namespace dotnetcrud.Controllers
         private readonly IUserService _userService;
         private readonly IS3Service _Is3Service;
 
-        public UserController(IUserService userService,IS3Service _is3Service)
+        public UserController(IUserService userService, IS3Service _is3Service)
         {
             _userService = userService;
             _Is3Service = _is3Service;

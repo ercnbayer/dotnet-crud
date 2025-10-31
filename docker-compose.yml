@@ -13,6 +13,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+
   localstack:
     container_name: localstack
     image: localstack/localstack:latest
@@ -23,7 +24,7 @@ services:
       - SERVICES=s3,sqs
       - DEBUG=1
       - DEFAULT_REGION=us-east-1
-      - DATA_DIR=/tmp/localstack/data
+      - TMP_DIR=/tmp/localstack/tmp
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
       - AWS_REGION=us-east-1

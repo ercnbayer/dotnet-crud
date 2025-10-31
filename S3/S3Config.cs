@@ -10,14 +10,14 @@ public class S3Config
     public string BucketName { get; set; }
     public string QueueName { get; set; }
     public string Region { get; set; }
-    
+
     public IAmazonS3 CreateS3Client()
     {
         var config = new AmazonS3Config
         {
             ServiceURL = ServiceUrl,
-            ForcePathStyle = true ,// for localstack
-            UseHttp=true
+            ForcePathStyle = true,// for localstack
+            UseHttp = true
         };
 
         return new AmazonS3Client(AccessKey, SecretKey, config);

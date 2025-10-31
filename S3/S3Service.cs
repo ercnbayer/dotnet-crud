@@ -41,8 +41,7 @@ public class S3Service : IS3Service
         var unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         var key = $"{_bucketName}/{userId}/{fileName}-{unixTime}";
-
-
+        Console.WriteLine("Key:", key);
 
         var request = new GetPreSignedUrlRequest
         {

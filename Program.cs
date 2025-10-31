@@ -42,10 +42,10 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "CustomAuth"
                 }
             },
-            new string[] {}
+            []
         }
     });
-    
+
 });
 
 // S3 Configuration
@@ -55,13 +55,14 @@ var s3Config = new S3Config
     AccessKey = builder.Configuration["AWS:AccessKey"] ?? "test",
     SecretKey = builder.Configuration["AWS:SecretKey"] ?? "test",
     BucketName = builder.Configuration["AWS:BucketName"] ?? "my-bucket",
-    Region=builder.Configuration["AWS:Region"] ?? "us-east-1",
+    Region = builder.Configuration["AWS:Region"] ?? "us-east-1",
+    QueueName = builder.Configuration["AWS:QueueName"] ?? "my-queue",
 };
 
 
 builder.Services.AddSingleton(s3Config);
 
-// S3 client registered as scoped
+// S3 client register as scoped
 builder.Services.AddScoped<IAmazonS3>(sp =>
 {
     var config = sp.GetRequiredService<S3Config>();
@@ -74,7 +75,7 @@ builder.Services.AddScoped<IAmazonS3>(sp =>
         RegionEndpoint = RegionEndpoint.USEast1
     };
 
-    return new AmazonS3Client(credentials,awsConfig);
+    return new AmazonS3Client(credentials, awsConfig);
 });
 
 // S3 and File services

@@ -27,6 +27,8 @@ public class S3EventWorker : BackgroundService
             var config = scope.ServiceProvider.GetRequiredService<S3Config>();
 
             // --- Wait for queue to exist ---
+            Console.WriteLine("waiting for the queue to be created");
+
             string queueUrl = null;
             while (queueUrl == null && !stoppingToken.IsCancellationRequested)
             {
@@ -34,12 +36,15 @@ public class S3EventWorker : BackgroundService
                 {
                     var queueUrlResponse = await _sqs.GetQueueUrlAsync(config.QueueName, stoppingToken);
                     queueUrl = queueUrlResponse.QueueUrl;
+
                 }
                 catch
                 {
                     await Task.Delay(2000, stoppingToken);
                 }
             }
+
+            Console.WriteLine($"queue URL:{queueUrl}");
 
             // --- Receive messages ---
             var response = await _sqs.ReceiveMessageAsync(new ReceiveMessageRequest
@@ -49,6 +54,16 @@ public class S3EventWorker : BackgroundService
                 MaxNumberOfMessages = 10
             }, stoppingToken);
 
+            while (response.Messages == null)
+            {
+                response = await _sqs.ReceiveMessageAsync(new ReceiveMessageRequest
+                {
+                    QueueUrl = queueUrl,
+                    WaitTimeSeconds = 5,
+                    MaxNumberOfMessages = 10
+                }, stoppingToken);
+
+            }
             foreach (var msg in response.Messages)
             {
                 try
@@ -70,11 +85,14 @@ public class S3EventWorker : BackgroundService
 
                     var fileName = Path.GetFileName(recordKey);
 
-                    var nameParts = fileName.Split('-');
+                    var nameParts = fileName.Split('.');
                     var nameWithoutTimestamp = nameParts[0];
                     var extension = Path.GetExtension(nameWithoutTimestamp);
 
-                    if (string.IsNullOrEmpty(extension)) throw new Exception("Extension not found");
+                    if (string.IsNullOrEmpty(extension))
+                    {
+                        extension = "";
+                    };
 
                     string contentType = extension.ToLowerInvariant() switch
                     {
@@ -96,11 +114,14 @@ public class S3EventWorker : BackgroundService
                     };
 
                     var result = await fileRepository.CreateAsync(file);
-                    Console.WriteLine(result);
+
                     if (!result.IsSuccess)
                         Console.WriteLine($"Failed to create file record for {fileName}. Error: {result.Error}");
                     else
+                    {
                         await _sqs.DeleteMessageAsync(queueUrl, msg.ReceiptHandle, stoppingToken);
+                    }
+
                 }
                 catch (Exception ex)
                 {
